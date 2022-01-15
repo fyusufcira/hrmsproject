@@ -1,0 +1,37 @@
+package kodlamaio.hrms.business.concretes;
+
+import org.springframework.stereotype.Service;
+
+import kodlamaio.hrms.business.abstracts.UserService;
+import kodlamaio.hrms.core.dataAccess.UserDao;
+import kodlamaio.hrms.core.entities.User;
+import kodlamaio.hrms.core.utilities.results.DataResult;
+import kodlamaio.hrms.core.utilities.results.Result;
+import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
+import kodlamaio.hrms.core.utilities.results.SuccessResult;
+
+
+
+
+@Service
+public class UserManager implements UserService{
+	
+	private UserDao userDao;
+	
+	public UserManager(UserDao userDao) {
+		this.userDao=userDao;
+	}
+	
+	@Override
+	public Result add(User user) {
+		this.userDao.save(user);
+		return new SuccessResult("User added.");
+	}
+
+	@Override
+	public DataResult<User> findByEmail(String email) {
+		return new SuccessDataResult<User>(this.userDao.findByEmail(email),"User found.");
+	}
+
+	
+}
